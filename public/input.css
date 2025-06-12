@@ -20,6 +20,10 @@
     margin-inline: auto;
 }
 
+.top-margin{
+    margin-top: 4rem;
+}
+
 @media (min-width: 768px){
     .container-custom{
         width: 92%;
