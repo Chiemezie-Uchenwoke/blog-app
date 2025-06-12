@@ -21,15 +21,74 @@
 
 </head>
 
-<body>
+<body class="bg-white-dk">
 
     <%- include("partials/header.ejs") %>
     
     <div class="flex gap-8 container-custom my-4 h-[calc(100vh-6rem)]">
-        <aside class="border w-[15rem] hidden min-[768px]:block h-full">1</aside>
-        <div class="border w-full min-[768px]:w-[calc(100%-15rem)] min-h-full">1</div>
+        <aside class="border border-black/30 rounded-md w-[15rem] hidden h-full pb-4 overflow-hidden min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4">
+            <h1 class="font-bold capitalize bg-pri-col px-2 py-3 text-sec-col">blog posts</h1>
+
+            <div class="px-2">
+                <h2 class="font-bold capitalize">All blogs</h2>
+
+                <ul>
+                    <% allBlogPost.forEach((post) => { %>
+                        <li class="list-disc list-inside text-xs"><%= post.title %></li>
+                    <%  }) %>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- 15rem is the width of the sidebar -->
+        <div class="w-full min-[768px]:w-[calc(100%-15rem)] min-h-[calc(100vh-6rem)] flex flex-col gap-5 items-center relative overflow-y-scroll" id="blogWrapper">
+            <div id="blogOverlay" class="hidden absolute top-0 left-0 w-full h-full backdrop-blur-sm bg-white/30 z-[10]"></div>
+
+            <div class="h-[8rem] bg-white-lt w-[80%] max-w-[18rem] shadow-md flex flex-col items-center justify-center gap-2 shrink-0" id="blogContainer">
+                <p class="text-dark-lt font-bold capitalize">
+                    create a blog post
+                </p>
+
+                <button class="w-[2.5rem] h-[2.5rem] rounded-full bg-sec-col text-dark-lt text-xl flex items-center justify-center hover:shadow-md cursor-pointer duration-300 hover:translate-y-[-2px]" id="createBlog">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+<!-- action="/newblog" -->
+            <form id="newBlog"  class="border h-[25rem] w-[90%] max-w-[30rem] hidden flex-col gap-8 border-black/5 rounded-md overflow-hidden shadow-lg py-8 px-6 absolute z-[50] bg-white-lt top-[50%] translate-y-[-50%]">
+
+                <button class="border border-black/10 w-[1.5rem] h-[1.4rem] text-sm py-1 rounded-xs absolute top-3 right-[1.5rem] flex justify-center items-center bg-white-lt hover:brightness-90 cursor-pointer" id="closeForm">
+                    <i class="fa-solid fa-xmark opacity-75"></i>
+                </button>
+
+                <input type="text" name="title" placeholder="Title" class="mt-8 border border-black/30 rounded-md h-[2.5rem] px-3 focus:border-pri-col">
+                <textarea name="content" id="content" placeholder="Content" rows="5" class="border border-black/30 rounded-md px-3 py-3 focus:border-pri-col"></textarea>
+
+                <button class="capitalize bg-pri-col text-white-dk self-start py-2 px-6 rounded-md cursor-pointer">
+                    post blog
+                </button>
+            </form>
+
+            <section class="grid grid-cols-1 min-[768px]:grid-cols-2 w-full mt-4 gap-8 px-2">
+                <% if (locals.allBlogPost){ %>
+                <% allBlogPost.forEach((post) => { %>
+                    <article class=" border border-black/30 pb-6 rounded-md overflow-hidden">
+                        <h3 class="bg-pri-col text-center py-2 text-white-dk capitalize font-semibold"><%= post.title %></h3>
+
+                        <div class="px-4 py-2">
+                            <p>
+                                <%= post.content %>
+                            </p>
+                        </div>
+                    </article>
+                <% }) %>
+            <% } %>
+
+            </section>
+        </div>
     </div>
 
+
+    <script src="/js/form.js"></script>
 </body>
 
 </html>
