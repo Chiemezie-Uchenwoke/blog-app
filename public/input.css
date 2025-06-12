@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Nunito", sans-serif;
+  }
+}
+
+@theme {
+  --color-pri-col: #344c36;
+  --color-sec-col: #faac1d;
+  --color-white-dk: #f4f4f4;
+  --color-white-lt: #f6f6f6;
+  --color-dark-lt: #1a1a1a;
+  --font-nunito: "Nunito", sans-serif;
+}
+
+.container-custom{
+    width: 95%;
+    margin-inline: auto;
+}
+
+@media (min-width: 768px){
+    .container-custom{
+        width: 92%;
+    }
+}
+
+@media (min-width: 1000px){
+    .container-custom{
+        width: 85%;
+    }
+}
+
+@media (min-width: 1500px){
+    .container-custom{
+        width: 75%;
+    }
+}
+
+@media (min-width: 2500px){
+    .container-custom{
+        width: 60%;
+    }
+}
