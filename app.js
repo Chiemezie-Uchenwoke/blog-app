@@ -13,29 +13,30 @@ app.use(bodyParser.urlencoded())
 // parse application/json
 app.use(bodyParser.json())
 
-const formData = {
-  title: "The effect of growth",
-  content: "Self-discovery is a process of self-reflection, exploration, and growth that can help you gain a clearer sense of purpose and direction in life. It can also lead to improved relationships, better decision-making, and enhanced well-being.",
-}
-
-const post = []
-const getPost = () => {
-  post.push(formData)
-  post.push(formData)
-  post.push(formData)
-  post.push(formData)
-  post.push(formData)
-  post.push(formData)
-  post.push(formData)
-  return post;
-}
-
-const allPost = getPost();
-console.log(allPost);
-
-
 app.get('/', (req, res) => {
-  res.render("index.ejs", {allBlogPost: allPost})
+  res.render("index.ejs")
+});
+
+// Store all users post
+const post = [];
+
+app.post("/newblog", (req, res) => {
+  const {title, content} = req.body;
+
+  const getPost = () => {
+    const formData = {
+      heading: title,
+      postContent: content,
+    }
+
+    post.push(formData)
+
+    return post;
+  }
+
+  const allPost = getPost();
+
+  res.render("index.ejs", {allBlogPost: allPost});
 });
 
 app.listen(port, () => {

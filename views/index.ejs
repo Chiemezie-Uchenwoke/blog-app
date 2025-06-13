@@ -26,16 +26,20 @@
     <%- include("partials/header.ejs") %>
     
     <div class="flex gap-8 container-custom my-4 h-[calc(100vh-6rem)]">
-        <aside class="border border-black/30 rounded-md w-[15rem] hidden h-full pb-4 overflow-hidden min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4">
-            <h1 class="font-bold capitalize bg-pri-col px-2 py-3 text-sec-col">blog posts</h1>
+        <aside class="border border-black/30 rounded-md w-[15rem] hidden h-full pb-4 overflow-y-scroll min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4">
+            <h1 class="font-bold capitalize bg-pri-col px-4 py-3 text-sec-col">blog posts</h1>
 
-            <div class="px-2">
+            <div class="px-4 flex flex-col gap-4">
                 <h2 class="font-bold capitalize">All blogs</h2>
 
-                <ul>
-                    <% allBlogPost.forEach((post) => { %>
-                        <li class="list-disc list-inside text-xs"><%= post.title %></li>
-                    <%  }) %>
+                <ul class="flex flex-col gap-2">
+                    <% if (locals.allBlogPost){ %>
+                        <% allBlogPost.forEach((post) => { %>
+                            <li class="list-disc list-inside text-sm">
+                                <%= post.heading %>
+                            </li>
+                        <%  }) %>
+                    <% } %>
                 </ul>
             </div>
         </aside>
@@ -53,15 +57,19 @@
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
-<!-- action="/newblog" -->
-            <form id="newBlog"  class="border h-[25rem] w-[90%] max-w-[30rem] hidden flex-col gap-8 border-black/5 rounded-md overflow-hidden shadow-lg py-8 px-6 absolute z-[50] bg-white-lt top-[50%] translate-y-[-50%]">
+
+            <form  action="/newblog" method="post" id="newBlog"  class="border h-[25rem] w-[90%] max-w-[30rem] hidden flex-col gap-8 border-black/5 rounded-md overflow-hidden shadow-lg py-8 px-6 absolute z-[50] bg-white-lt top-[50%] translate-y-[-50%]">
 
                 <button class="border border-black/10 w-[1.5rem] h-[1.4rem] text-sm py-1 rounded-xs absolute top-3 right-[1.5rem] flex justify-center items-center bg-white-lt hover:brightness-90 cursor-pointer" id="closeForm">
                     <i class="fa-solid fa-xmark opacity-75"></i>
                 </button>
 
-                <input type="text" name="title" placeholder="Title" class="mt-8 border border-black/30 rounded-md h-[2.5rem] px-3 focus:border-pri-col">
-                <textarea name="content" id="content" placeholder="Content" rows="5" class="border border-black/30 rounded-md px-3 py-3 focus:border-pri-col"></textarea>
+                <input type="text" name="title" placeholder="Title" class="mt-8 border border-black/30 rounded-md h-[2.5rem] px-3 focus:border-pri-col" id="titleInput">
+                
+                <!-- hidden input -->
+                 <input type="hidden" name="editIndex" id="editIndex" value="">
+
+                <textarea name="content" id="contentInput" placeholder="Content" rows="5" class="border border-black/30 rounded-md px-3 py-3 focus:border-pri-col"></textarea>
 
                 <button class="capitalize bg-pri-col text-white-dk self-start py-2 px-6 rounded-md cursor-pointer">
                     post blog
@@ -70,15 +78,25 @@
 
             <section class="grid grid-cols-1 min-[768px]:grid-cols-2 w-full mt-4 gap-8 px-2">
                 <% if (locals.allBlogPost){ %>
-                <% allBlogPost.forEach((post) => { %>
-                    <article class=" border border-black/30 pb-6 rounded-md overflow-hidden">
-                        <h3 class="bg-pri-col text-center py-2 text-white-dk capitalize font-semibold"><%= post.title %></h3>
+                <% allBlogPost.forEach((post, index) => { %>
+                    <article class=" border border-black/30 pb-6 rounded-md overflow-y-hidden" data-index="<%= index %>">
+                        <h3 class="bg-pri-col text-center py-2 text-white-dk capitalize font-semibold"><%= post.heading %></h3>
 
                         <div class="px-4 py-2">
                             <p>
-                                <%= post.content %>
+                                <%= post.postContent %>
                             </p>
                         </div>
+
+                        <div class="px-4 py-2 flex gap-4">
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold" id="editBtn">
+                                edit                                
+                            </button>
+
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold" id="deleteBtn">
+                                delete                                
+                            </button>
+                        </div> 
                     </article>
                 <% }) %>
             <% } %>

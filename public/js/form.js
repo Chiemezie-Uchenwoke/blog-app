@@ -5,6 +5,10 @@ const closeFormBtn = document.getElementById("closeForm");
 const blogWrapper = document.getElementById("blogWrapper");
 const blogOverlay = document.getElementById("blogOverlay");
 
+const titleInput = document.getElementById("titleInput");
+const contentInput = document.getElementById("contentInput");
+const editIndexInput = document.getElementById("editIndex");
+
 createBlogBtn.addEventListener("click", () => {
     createBlogContainer.style.display = "none";
     blogOverlay.style.display = "block";
