@@ -196,8 +196,14 @@
   .top-\[50\%\] {
     top: 50%;
   }
+  .right-4 {
+    right: calc(var(--spacing) * 4);
+  }
   .right-\[1\.5rem\] {
     right: 1.5rem;
+  }
+  .bottom-2 {
+    bottom: calc(var(--spacing) * 2);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
@@ -435,6 +441,10 @@
     font-size: var(--text-xl);
     line-height: var(--tw-leading, var(--text-xl--line-height));
   }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -445,6 +455,9 @@
   }
   .text-dark-lt {
     color: var(--color-dark-lt);
+  }
+  .text-pri-col {
+    color: var(--color-pri-col);
   }
   .text-sec-col {
     color: var(--color-sec-col);

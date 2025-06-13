@@ -5,20 +5,131 @@ const closeFormBtn = document.getElementById("closeForm");
 const blogWrapper = document.getElementById("blogWrapper");
 const blogOverlay = document.getElementById("blogOverlay");
 
+// edit 
 const titleInput = document.getElementById("titleInput");
 const contentInput = document.getElementById("contentInput");
-const editIndexInput = document.getElementById("editIndex");
+const editButtons = document.querySelectorAll(".editBtn");
 
-createBlogBtn.addEventListener("click", () => {
+// delete
+const deleteButtons = document.querySelectorAll(".deleteBtn");
+
+const showForm = () => {
     createBlogContainer.style.display = "none";
     blogOverlay.style.display = "block";
     blogWrapper.style.overflowY = "hidden";
     form.style.display = "flex";
-});
+}
 
-closeFormBtn.addEventListener("click", () => {
+const hideForm = () => {
     blogOverlay.style.display = "none";
     blogWrapper.style.overflowY = "scroll";
     createBlogContainer.style.display = "flex";
     form.style.display = "none";
+}
+
+// To create a new blog
+createBlogBtn.addEventListener("click", () => {
+    delete form.dataset.editingId; 
+    showForm();
+});
+
+closeFormBtn.addEventListener("click", () => {
+    hideForm();
+});
+
+// Edit button click handler - JUST populate form, DON'T send request
+editButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const postId = e.currentTarget.dataset.id;
+        const article = document.querySelector(`article[data-id='${postId}']`);
+        
+        // Store the postId in a hidden field or dataset
+        form.dataset.editingId = postId;
+        
+        // Fill form with existing content
+        titleInput.value = article.querySelector("h3").innerText;
+        contentInput.value = article.querySelector("p").innerText;
+
+        if (form.dataset.editingId){
+            form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            const postData = {
+                title: titleInput.value,
+                content: contentInput.value
+            };
+
+            const postId = form.dataset.editingId; // Get the ID we stored earlier
+
+            if (!postData.title || !postData.content) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/updateblog/${postId}`, {
+                    method: "PUT",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(postData)
+                });
+
+                if (response.ok) {
+                    window.location.reload(); // Refresh to show changes
+                } else {
+                    const error = await response.json();
+                    alert(error.message || "Error saving post");
+                }
+            } catch (err) {
+                console.error("Error:", err);
+                alert("An error occurred while saving");
+            } finally {
+                // Clean up
+                form.reset();
+                delete form.dataset.editingId;
+                hideForm();
+            }
+        });
+
+        }
+
+        // Show the form
+        showForm();
+    });
+});
+
+deleteButtons.forEach((btn) => {
+    btn.addEventListener("click", async () => {
+        const postId = btn.dataset.id;
+
+        // This gets the article that matches the index on the edit button
+        // const article = document.querySelector(`article[data-id='${postId}']`);
+
+        try {
+            const response = await fetch(`/deleteblog/${postId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postId: postId })
+            });
+
+            const data = await response.json();
+
+            if (response.ok){
+                console.log(data.message);
+                
+                const postElement = document.querySelector(`article[data-id="${postId}"]`);
+                const listElement = document.querySelector(`aside li[data-id="${postId}"]`);
+                if (postElement && listElement) {
+                    postElement.remove();
+                    listElement.remove();
+                }
+
+            } else {
+                // Show error message
+                alert(data.message || "Failed to delete post");
+            }
+        } catch (err){
+            console.log("Error deleting post:", err);
+        }
+    });
 });

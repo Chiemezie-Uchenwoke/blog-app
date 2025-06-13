@@ -35,7 +35,7 @@
                 <ul class="flex flex-col gap-2">
                     <% if (locals.allBlogPost){ %>
                         <% allBlogPost.forEach((post) => { %>
-                            <li class="list-disc list-inside text-sm">
+                            <li class="list-disc list-inside text-sm" data-id="<%= post.id %>">
                                 <%= post.heading %>
                             </li>
                         <%  }) %>
@@ -78,22 +78,27 @@
 
             <section class="grid grid-cols-1 min-[768px]:grid-cols-2 w-full mt-4 gap-8 px-2">
                 <% if (locals.allBlogPost){ %>
-                <% allBlogPost.forEach((post, index) => { %>
-                    <article class=" border border-black/30 pb-6 rounded-md overflow-y-hidden" data-index="<%= index %>">
+                <% allBlogPost.forEach((post) => { %>
+                    <article class=" border border-black/30 pb-6 rounded-md overflow-y-hidden relative" data-id="<%= post.id %>">
                         <h3 class="bg-pri-col text-center py-2 text-white-dk capitalize font-semibold"><%= post.heading %></h3>
 
                         <div class="px-4 py-2">
                             <p>
                                 <%= post.postContent %>
                             </p>
+
+                            <p class="flex gap-4 absolute right-4 bottom-2">
+                                <span class="text-xs"><i class="fa-solid fa-clock text-xs text-pri-col"></i> <%= post.timeOfPost %></span>
+                                <span class="text-xs"><i class="fa-solid fa-calendar text-xs text-pri-col"></i> <%= post.dateOfPost %></span>
+                            </p>
                         </div>
 
                         <div class="px-4 py-2 flex gap-4">
-                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold" id="editBtn">
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold editBtn" id="editBtn" data-id="<%= post.id %>">
                                 edit                                
                             </button>
 
-                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold" id="deleteBtn">
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold deleteBtn" id="deleteBtn" data-id="<%= post.id %>">
                                 delete                                
                             </button>
                         </div> 
@@ -102,6 +107,7 @@
             <% } %>
 
             </section>
+
         </div>
     </div>
 
