@@ -25,8 +25,8 @@
 
     <%- include("partials/header.ejs") %>
     
-    <div class="flex gap-8 container-custom my-4 h-[calc(100vh-6rem)]">
-        <aside class="border border-black/30 rounded-md w-[15rem] hidden h-full pb-4 overflow-y-scroll min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4">
+    <div class="flex gap-8 container-custom my-4 h-[calc(100vh-6rem)] relative">
+        <aside id="sideBar" class="border border-black/30 rounded-md w-[15rem] hidden h-[calc(100vh-4rem)] min-[768px]:h-[calc(100vh-6rem)] pb-4 overflow-y-scroll min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4 fixed left-0 min-[768px]:static top-[4rem] z-30 bg-white-lt">
             <h1 class="font-bold capitalize bg-pri-col px-4 py-3 text-sec-col">blog posts</h1>
 
             <div class="px-4 flex flex-col gap-4">
@@ -53,7 +53,7 @@
                     create a blog post
                 </p>
 
-                <button class="w-[2.5rem] h-[2.5rem] rounded-full bg-sec-col text-dark-lt text-xl flex items-center justify-center hover:shadow-md cursor-pointer duration-300 hover:translate-y-[-2px]" id="createBlog">
+                <button class="w-[2.5rem] h-[2.5rem] rounded-full bg-sec-col text-dark-lt text-xl flex items-center justify-center hover:shadow-md cursor-pointer duration-300 hover:translate-y-[-2px] hover:scale-103" id="createBlog">
                     <i class="fa-solid fa-plus"></i>
                 </button>
             </div>
@@ -94,11 +94,11 @@
                         </div>
 
                         <div class="px-4 py-2 flex gap-4">
-                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold editBtn" id="editBtn" data-id="<%= post.id %>">
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold editBtn duration-300 hover:translate-y-[2px]" id="editBtn" data-id="<%= post.id %>">
                                 edit                                
                             </button>
 
-                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold deleteBtn" id="deleteBtn" data-id="<%= post.id %>">
+                            <button class="bg-sec-col text-dark-lt  py-1 px-3 rounded-md capitalize text-sm cursor-pointer font-semibold deleteBtn duration-300 hover:translate-y-[2px]" id="deleteBtn" data-id="<%= post.id %>">
                                 delete                                
                             </button>
                         </div> 
@@ -113,6 +113,7 @@
 
 
     <script src="/js/form.js"></script>
+    <script src="/js/toggle.js"></script>
 </body>
 
 </html>
