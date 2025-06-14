@@ -89,7 +89,7 @@ form.addEventListener("submit", async (e) => {
 
         // On success, reload the page
         window.location.reload();
-        
+
     } catch (err) {
         console.error("Error:", err);
         alert("Something went wrong.");
@@ -105,9 +105,6 @@ deleteButtons.forEach((btn) => {
     btn.addEventListener("click", async () => {
         const postId = btn.dataset.id;
 
-        // This gets the article that matches the index on the edit button
-        // const article = document.querySelector(`article[data-id='${postId}']`);
-
         try {
             const response = await fetch(`/deleteblog/${postId}`, {
                 method: "DELETE",
@@ -122,12 +119,10 @@ deleteButtons.forEach((btn) => {
             if (response.ok){
                 console.log(data.message);
                 
-                const postElement = document.querySelector(`article[data-id="${postId}"]`);
-                const listElement = document.querySelector(`aside li[data-id="${postId}"]`);
-                if (postElement && listElement) {
-                    postElement.remove();
-                    listElement.remove();
-                }
+                // const postElement = document.querySelector(`article[data-id="${postId}"]`);
+                // const listElement = document.querySelector(`aside li[data-id="${postId}"]`);
+
+                location.reload();
 
             } else {
                 // Show error message
