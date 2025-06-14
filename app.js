@@ -17,41 +17,33 @@ app.use(bodyParser.json())
 const post = [];
 
 app.get('/', (req, res) => {
-  res.render("index.ejs")
+  res.render("index.ejs", { allBlogPost: post })
 });
 
+// post route
 app.post("/newblog", (req, res) => {
-  const {title, content, editIndex} = req.body;
+  const { title, content } = req.body;
 
   const postDate = new Date().toLocaleDateString();
   const postTime = new Date().toLocaleTimeString();
 
-  const getPost = () => {
-    const formData = {
-      id: Date.now(),
-      heading: title,
-      postContent: content,
-      dateOfPost: postDate,
-      timeOfPost: postTime
-    }
-
-    if (!formData.heading || !formData.postContent) {
-      return post;
-    } else if (editIndex){
-      post[Number(editIndex)] = formData;
-      return post;
-    } else {
-      post.push(formData)
-    }
-
-
-    return post;
+  if (!title || !content) {
+    return res.status(400).json({ message: "Title and content are required." });
   }
 
-  const allPost = getPost();
+  const newPost = {
+    id: Date.now(),
+    heading: title,
+    postContent: content,
+    dateOfPost: postDate,
+    timeOfPost: postTime
+  };
 
-  res.render("index.ejs", {allBlogPost: allPost});
+  post.push(newPost);
+
+  return res.status(201).json({ message: "Post created", allBlogPost: newPost });
 });
+
 
 // PUT route for editing posts
 app.put("/updateblog/:id", (req, res) => {

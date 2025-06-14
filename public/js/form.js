@@ -50,51 +50,56 @@ editButtons.forEach((btn) => {
         titleInput.value = article.querySelector("h3").innerText;
         contentInput.value = article.querySelector("p").innerText;
 
-        if (form.dataset.editingId){
-            form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            
-            const postData = {
-                title: titleInput.value,
-                content: contentInput.value
-            };
-
-            const postId = form.dataset.editingId; // Get the ID we stored earlier
-
-            if (!postData.title || !postData.content) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`/updateblog/${postId}`, {
-                    method: "PUT",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(postData)
-                });
-
-                if (response.ok) {
-                    window.location.reload(); // Refresh to show changes
-                } else {
-                    const error = await response.json();
-                    alert(error.message || "Error saving post");
-                }
-            } catch (err) {
-                console.error("Error:", err);
-                alert("An error occurred while saving");
-            } finally {
-                // Clean up
-                form.reset();
-                delete form.dataset.editingId;
-                hideForm();
-            }
-        });
-
-        }
-
         // Show the form
         showForm();
     });
 });
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const postData = {
+        title: titleInput.value,
+        content: contentInput.value
+    };
+
+    const editingId = form.dataset.editingId;
+
+    if (!postData.title || !postData.content) {
+        return;
+    }
+
+    try {
+        const url = editingId ? `/updateblog/${editingId}` : `/newblog`;
+        const method = editingId ? "PUT" : "POST";
+
+        const response = await fetch(url, {
+            method,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(postData)
+        });
+
+        if (!response.ok) {
+            const error = await response.json();
+            alert(error.message || "Something went wrong.");
+            return;
+        }
+
+        // On success, reload the page
+        window.location.reload();
+        
+    } catch (err) {
+        console.error("Error:", err);
+        alert("Something went wrong.");
+    } finally {
+        form.reset();
+        delete form.dataset.editingId;
+        hideForm();
+    }
+});
+
 
 deleteButtons.forEach((btn) => {
     btn.addEventListener("click", async () => {
