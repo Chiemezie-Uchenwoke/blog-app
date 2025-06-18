@@ -1,9 +1,23 @@
 <header class="bg-pri-col text-white h-[4rem] flex items-center sticky top-0 z-[100]">
-    <div class="container-custom flex items-center justify-between w-full h-full">
-        <div class="uppercase font-semibold text-lg">blog application</div>
+    <div class="container-custom flex items-center justify-between gap-4 w-full h-full">
+        <div class="uppercase font-semibold text-sm sm:text-base" id="notes">notes application</div>
 
         <button id="toggleSideBarBtn" class="border border-white/20 py-1 px-2 text-lg rounded-md cursor-pointer hover:bg-sec-col hover:text-dark-lt">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 </header>
+
+<script>
+    const headerText = document.getElementById("notes");
+    const notes = ["notes application", "quickly write down your thoughts and ideas", "Stay organized with simple, clean notes", "Your personal notepad in the browser"];
+    let index = 0;
+    headerText.textContent = notes[index];
+
+    const updateHeaderText = () => {
+        index = (index + 1) % notes.length
+        headerText.textContent = notes[index];
+    }
+
+    setInterval(updateHeaderText, 5000);
+</script>

@@ -27,10 +27,10 @@
     
     <div class="flex gap-8 container-custom my-4 h-[calc(100vh-6rem)] relative">
         <aside id="sideBar" class="border border-black/30 rounded-md w-[15rem] hidden h-[calc(100vh-4rem)] min-[768px]:h-[calc(100vh-6rem)] pb-4 overflow-y-scroll min-[768px]:flex min-[768px]:flex-col min-[768px]:gap-4 fixed left-0 min-[768px]:static top-[4rem] z-30 bg-white-lt">
-            <h1 class="font-bold capitalize bg-pri-col px-4 py-3 text-sec-col">blog posts</h1>
+            <h1 class="font-bold capitalize bg-pri-col px-4 py-3 text-sec-col">notes</h1>
 
             <div class="px-4 flex flex-col gap-4">
-                <h2 class="font-bold capitalize">All blogs</h2>
+                <h2 class="font-bold capitalize">All notes</h2>
 
                 <ul class="flex flex-col gap-2">
                     <% if (locals.allBlogPost){ %>
@@ -50,7 +50,7 @@
 
             <div class="h-[8rem] bg-white-lt w-[80%] max-w-[18rem] shadow-md flex flex-col items-center justify-center gap-2 shrink-0" id="blogContainer">
                 <p class="text-dark-lt font-bold capitalize">
-                    create a blog post
+                    new note
                 </p>
 
                 <button class="w-[2.5rem] h-[2.5rem] rounded-full bg-sec-col text-dark-lt text-xl flex items-center justify-center hover:shadow-md cursor-pointer duration-300 hover:translate-y-[-2px] hover:scale-103" id="createBlog">
@@ -76,7 +76,7 @@
                 </button>
             </form>
 
-            <section class="grid grid-cols-1 min-[768px]:grid-cols-2 w-full mt-4 gap-8 px-2">
+            <section class="grid grid-cols-1 min-[900px]:grid-cols-2 w-full mt-4 gap-8 px-2">
                 <% if (locals.allBlogPost){ %>
                 <% allBlogPost.forEach((post) => { %>
                     <article class=" border border-black/30 pb-6 rounded-md overflow-y-hidden relative" data-id="<%= post.id %>">
