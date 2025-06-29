@@ -1,10 +1,11 @@
 {
-  "name": "blog_application",
+  "name": "notes_application",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-css": "npx @tailwindcss/cli -i ./public/input.css -o ./public/output.css",
+    "postinstall": "npm run build-css",
     "start": "node app.js"
   },
   "keywords": [],
